@@ -28,10 +28,9 @@ public class CgpaCalculatorApplication extends Application<CgpaCalculatorConfigu
                     final Environment environment) {
         // TODO: implement application
                 // getting-started: CgpaCalculatorApplication#run->CgpaCalculatorResource
-        CgpaCalculatorResource resource = new CgpaCalculatorResource(
-                configuration.getTemplate(),
-                configuration.getDefaultName()
-        );
+        CgpaCalculatorResource resource = new CgpaCalculatorResource("Your CGPA is: {}", "defaultName");
+        double cgpa = Double.parseDouble(resource.getCGPA());
+        System.out.println("Your CGPA is: " + String.valueOf(cgpa));
         environment.jersey().register(resource);
         // getting-started: CgpaCalculatorApplication#run->CgpaCalculatorResource
 
