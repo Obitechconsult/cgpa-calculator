@@ -10,4 +10,4 @@ RUN mvn clean package
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "2-2-shaded.jar", "server", "run"]
+CMD ["java", "-jar", "target/2-2.jar", "server", "config.yml"]
