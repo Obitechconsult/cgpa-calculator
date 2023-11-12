@@ -8,8 +8,8 @@ import jakarta.ws.rs.core.MediaType;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-@Path("/cgpa")
-@Produces(MediaType.TEXT_PLAIN)
+@Path("/")
+@Produces(MediaType.TEXT_HTML)
 public class CgpaCalculatorResource {
     private final String template;
     private final String defaultName;
@@ -22,10 +22,29 @@ public class CgpaCalculatorResource {
     }
 
     @GET
+    @Timed
     public String getCGPA() {
         // Calculate CGPA logic goes here
         double cgpa = calculateCgpa();
-        return String.valueOf(cgpa);
+        
+        // Format the result as HTML
+        return "<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                "    <link rel=\"stylesheet\" href=\"/path/to/style.css\">\n" +
+                "    <title>CGPA Result</title>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "    <div class=\"result-container\">\n" +
+                "        <h1>Your CGPA Result</h1>\n" +
+                "        <div class=\"result-box\">\n" +
+                "            <p>Your CGPA is: <span id=\"cgpa-value\">" + String.format("%.2f", cgpa) + "</span></p>\n" +
+                "        </div>\n" +
+                "    </div>\n" +
+                "</body>\n" +
+                "</html>";
     }
 
     // CGPA calculation logic

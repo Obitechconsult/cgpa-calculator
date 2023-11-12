@@ -6,7 +6,6 @@ import io.dropwizard.core.Application;
 import io.dropwizard.core.setup.Bootstrap;
 import io.dropwizard.core.setup.Environment;
 
-
 public class CgpaCalculatorApplication extends Application<CgpaCalculatorConfiguration> {
 
     public static void main(final String[] args) throws Exception {
@@ -27,10 +26,23 @@ public class CgpaCalculatorApplication extends Application<CgpaCalculatorConfigu
     public void run(final CgpaCalculatorConfiguration configuration,
                     final Environment environment) {
         // TODO: implement application
-                // getting-started: CgpaCalculatorApplication#run->CgpaCalculatorResource
+
+        // getting-started: CgpaCalculatorApplication#run->CgpaCalculatorResource
         CgpaCalculatorResource resource = new CgpaCalculatorResource("Your CGPA is: {}", "defaultName");
-        double cgpa = Double.parseDouble(resource.getCGPA());
+        String cgpaHtml = resource.getCGPA();
+        
+        // Print the HTML response
+        System.out.println(cgpaHtml);
+        
+        // Extract the CGPA value (you may need to use a proper HTML parser for robustness)
+        String cgpaValue = cgpaHtml.split("<span id=\"cgpa-value\">")[1].split("</span>")[0];
+        
+        // Parse the CGPA value
+        double cgpa = Double.parseDouble(cgpaValue);
+        
+        // Print the parsed CGPA
         System.out.println("Your CGPA is: " + String.valueOf(cgpa));
+
         environment.jersey().register(resource);
         // getting-started: CgpaCalculatorApplication#run->CgpaCalculatorResource
 
