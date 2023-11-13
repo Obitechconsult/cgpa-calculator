@@ -30,8 +30,8 @@ public class CgpaCalculatorApplication extends Application<CgpaCalculatorConfigu
         // getting-started: CgpaCalculatorApplication#run->CgpaCalculatorResource
         CgpaCalculatorResource resource = new CgpaCalculatorResource("Your CGPA is: {}", "defaultName");
 
-        // Instead of calling getCGPA without arguments, provide a sample score (e.g., 75) as an argument
-        String cgpaHtml = resource.getCGPA(75);
+        // Instead of calling getCGPA with a single score, provide individual scores and units
+        String cgpaHtml = resource.getCGPA(75, 2, 80, 3, 90, 1, 85, 2, 95, 3, 60, 1, 70, 2);
 
         // Print the HTML response
         System.out.println(cgpaHtml);
