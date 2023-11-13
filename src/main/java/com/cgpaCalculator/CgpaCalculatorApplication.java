@@ -29,17 +29,19 @@ public class CgpaCalculatorApplication extends Application<CgpaCalculatorConfigu
 
         // getting-started: CgpaCalculatorApplication#run->CgpaCalculatorResource
         CgpaCalculatorResource resource = new CgpaCalculatorResource("Your CGPA is: {}", "defaultName");
-        String cgpaHtml = resource.getCGPA();
-        
+
+        // Instead of calling getCGPA without arguments, provide a sample score (e.g., 75) as an argument
+        String cgpaHtml = resource.getCGPA(75);
+
         // Print the HTML response
         System.out.println(cgpaHtml);
-        
+
         // Extract the CGPA value (you may need to use a proper HTML parser for robustness)
         String cgpaValue = cgpaHtml.split("<span id=\"cgpa-value\">")[1].split("</span>")[0];
-        
+
         // Parse the CGPA value
         double cgpa = Double.parseDouble(cgpaValue);
-        
+
         // Print the parsed CGPA
         System.out.println("Your CGPA is: " + String.valueOf(cgpa));
 
@@ -50,7 +52,5 @@ public class CgpaCalculatorApplication extends Application<CgpaCalculatorConfigu
         TemplateHealthCheck healthCheck = new TemplateHealthCheck(configuration.getTemplate());
         environment.healthChecks().register("template", healthCheck);
         // getting-started: HelloWorldApplication#run->TemplateHealthCheck
-
     }
-
 }

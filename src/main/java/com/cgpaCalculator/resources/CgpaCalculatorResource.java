@@ -1,9 +1,7 @@
 package com.cgpaCalculator.resources;
 
 import com.codahale.metrics.annotation.Timed;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
 import java.util.concurrent.atomic.AtomicLong;
@@ -23,10 +21,15 @@ public class CgpaCalculatorResource {
 
     @GET
     @Timed
-    public String getCGPA() {
+    public String getCGPA(@QueryParam("score") @DefaultValue("-1") int score) {
+        // If score is not provided in the query, render the form
+        if (score == -1) {
+            return renderForm();
+        }
+
         // Calculate CGPA logic goes here
-        double cgpa = calculateCgpa();
-        
+        double cgpa = calculateCgpa(score);
+
         // Format the result as HTML
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
@@ -47,11 +50,31 @@ public class CgpaCalculatorResource {
                 "</html>";
     }
 
-    // CGPA calculation logic
-    private double calculateCgpa() {
-        // Replace this with your actual score
-        int score = 75;
+    // Render the HTML form
+    private String renderForm() {
+        return "<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                "    <link rel=\"stylesheet\" href=\"/path/to/style.css\">\n" +
+                "    <title>CGPA Calculator</title>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "    <div class=\"input-container\">\n" +
+                "        <h1>Enter Your Score</h1>\n" +
+                "        <form action=\"/\" method=\"get\">\n" +
+                "            <label for=\"score\">Score:</label>\n" +
+                "            <input type=\"number\" id=\"score\" name=\"score\" required>\n" +
+                "            <button type=\"submit\">Calculate CGPA</button>\n" +
+                "        </form>\n" +
+                "    </div>\n" +
+                "</body>\n" +
+                "</html>";
+    }
 
+    // CGPA calculation logic
+    private double calculateCgpa(int score) {
         if (score >= 0 && score <= 39) {
             return 0.0;
         } else if (score >= 40 && score <= 44) {
